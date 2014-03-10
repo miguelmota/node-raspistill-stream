@@ -28,11 +28,8 @@ async.waterfall([function(callback) {
   if (isRunning) return;
 
   var path = '/tmp/stream';
-
-  if (!fs.exists(path)) {
-    fs.mkdirSync(path, 0777, function(err) {
-      if (err) throw new Error(err);
-    });
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path, 0777);
   }
 
   log.info('Starting raspistill');
