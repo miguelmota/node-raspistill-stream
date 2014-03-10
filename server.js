@@ -66,6 +66,7 @@ var server = BinaryServer({port: 9001});
 
 server.on('connection', function(client){
   log.info('BinaryJS connected');
+<<<<<<< HEAD
   function next() {
       console.log('sending stream');
       var file = fs.createReadStream('/tmp/stream/pic.jpg');
@@ -80,3 +81,13 @@ process.on('exit', function() {
     });
 
 //raspistill.kill('SIGHUP');
+=======
+});
+
+server.on('gimmie', function() {
+  var file = fs.createReadStream('/tmp/stream/pic.jpg');
+  client.send(file);
+});
+
+
+>>>>>>> 9ca12653640752f60b4eca99b8a528970bd5387e
