@@ -15,7 +15,7 @@
   <script src="http://cdn.binaryjs.com/0/binary.js"></script>
   <script>
     var img = document.querySelector('.img');
-    var client = new BinaryClient('ws://localhost:9001');
+    var client = new BinaryClient('ws://192.168.1.135:9001');
     client.on('stream', function(stream, meta){    
       console.log('Received stream');
       var parts = [];
