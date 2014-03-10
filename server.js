@@ -19,6 +19,11 @@ var server = BinaryServer({port: 9001});
 
 server.on('connection', function(client){
   log.info('BinaryJS connected');
-  var file = fs.createReadStream('/tmp/stream/pic.js');
+});
+
+server.on('gimmie', function() {
+  var file = fs.createReadStream('/tmp/stream/pic.jpg');
   client.send(file);
 });
+
+
