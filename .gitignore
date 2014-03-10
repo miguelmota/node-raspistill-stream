@@ -75,7 +75,7 @@ dwsync.xml
  
 # Node Module #
 #####################
-node_modules
+#node_modules
  
 # Folders to ignore #
 #####################
