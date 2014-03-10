@@ -23,7 +23,7 @@ Run
 
 ```bash
 node server.js
-``
+```
 
 then navigat to `http://<you RPI's ip>:9000/` to view the stream of images.
 
