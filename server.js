@@ -1,53 +1,58 @@
-var express = require('express');
-var log = require('winston');
 var fs = require('fs');
-var BinaryServer = require('binaryjs').BinaryServer;
 var async = require('async');
 var exec = require('child_process').exec;
+var log = require('winston');
+var express = require('express');
+var BinaryServer = require('binaryjs').BinaryServer;
 
-async.parallel([
-function() {
-exec('ps aux | grep [r]aspistill', function(err, stdout, stderr) {
-   if (stdout) {
-       //console.log(stdout);
-       try {
-       var pid = stdout.match(/\s+(\d{4,6})+\s+/gi)[0].trim();
-       if (pid) {
-       console.log('Raspistill running ' + pid);
-       return true;
-       }
-       } catch (err) {
-          console.log('pid not found'); 
-          return false;
-       }
-   }
- });
-}
-], function(isRunning) {
+async.parallel([function() {
+  exec('ps aux | grep [r]aspistill', function(err, stdout, stderr) {
+    if (stdout) {
+      //log.info(stdout);
+      try {
+        var pid = stdout.match(/\s+(\d{4,6})+\s+/gi)[0].trim();
+        if (pid) {
+          log.info('Raspistill running. PID:' + pid);
+          return true;
+         }
+       } catch (e) {
+        log.warn('Raspistill PID not found'); 
+        return false;
+      }
+    }
+  });
+}], function(isRunning) {
 
-if (isRunning) return;
+  if (isRunning) return;
 
-    console.log('Starting raspistill');
+  var path = '/tmp/stream';
 
-    var spawn = require('child_process').spawn,
-        raspistill = spawn('raspistill', ['-w', '640', '-h', '480', '-q', '5', '-o', '/tmp/stream/pic.jpg', '-tl', '100', '-t', '9999999', '-th', '0:0:0', '-n', '-rot', '180']);
+  if (!fs.exists(path)) {
+    fs.mkdirSync(path, 0777, function(err) {
+      if (err) throw new Error(err);
+    });
+  }
 
+  log.info('Starting raspistill');
 
-    raspistill.on('close', function(code, signal) {
-        console.log('child process terminated due to receipt of signal ' + signal);
-     });
+  var spawn = require('child_process').spawn;
+  var raspistill = spawn('raspistill', ['-w', '640', '-h', '480', '-q', '5', '-o', path + '/pic.jpg', '-tl', '100', '-t', '9999999', '-th', '0:0:0', '-n', '-rot', '180']);
 
-    raspistill.stdout.on('data', function(data) {
-        console.log('stdout:' + data);
-      });
+  raspistill.on('close', function(code, signal) {
+    log.info('child process terminated due to receipt of signal ' + signal);
+  });
 
-    raspistill.stderr.on('data', function(data) {
-        console.log('stdrr:' + data);
-      });
+  raspistill.stdout.on('data', function(data) {
+    log.info('stdout:' + data);
+  });
 
-    raspistill.stdin.on('data', function(data) {
-        console.log('stdin:' + data);
-      });
+  raspistill.stderr.on('data', function(data) {
+    log.error('stdrr:' + data);
+  });
+
+  raspistill.stdin.on('data', function(data) {
+    log.info('stdin:' + data);
+  });
 });
 
 var app = express();
@@ -66,28 +71,15 @@ var server = BinaryServer({port: 9001});
 
 server.on('connection', function(client){
   log.info('BinaryJS connected');
-<<<<<<< HEAD
-  function next() {
-      console.log('sending stream');
-      var file = fs.createReadStream('/tmp/stream/pic.jpg');
-      client.send(file);
-      setTimeout(next, 200);
-  }
-  next();
-});
-
-process.on('exit', function() {
-    console.log('Fatal error. Exiting..'); 
-    });
-
-//raspistill.kill('SIGHUP');
-=======
 });
 
 server.on('gimmie', function() {
+  console.log('sending stream');
   var file = fs.createReadStream('/tmp/stream/pic.jpg');
   client.send(file);
 });
 
-
->>>>>>> 9ca12653640752f60b4eca99b8a528970bd5387e
+process.on('exit', function() {
+  //raspistill.kill('SIGHUP');
+  log.error('Fatal error. Exiting.'); 
+});

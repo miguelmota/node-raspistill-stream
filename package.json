@@ -20,6 +20,7 @@
   "dependencies": {
     "express": "~3.5.0",
     "winston": "~0.7.2",
-    "binaryjs": "~0.2.1"
+    "binaryjs": "~0.2.1",
+    "async": "~0.2.10"
   }
 }
