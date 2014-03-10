@@ -8,7 +8,6 @@ var BinaryServer = require('binaryjs').BinaryServer;
 async.waterfall([function(callback) {
   exec('ps aux | grep [r]aspistill', function(err, stdout, stderr) {
     if (stdout) {
-      //log.info(stdout);
       try {
         var pid = stdout.match(/\s+(\d{4,6})+\s+/gi)[0].trim();
         if (pid) {
@@ -83,8 +82,6 @@ server.on('connection', function(client){
   });
 });
 
-
 process.on('exit', function() {
-  //raspistill.kill('SIGHUP');
   log.error('Fatal error. Exiting.'); 
 });
