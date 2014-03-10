@@ -17,9 +17,15 @@ git clone https://github.com/miguelmota/node-raspistill-stream
 
 ## Usage
 
+Make sure to update the host url in `index.html` to match your RPI's IP address.
+
+Run
+
 ```bash
 node server.js
-```
+``
+
+then navigat to `http://<you RPI's ip>:9000/` to view the stream of images.
 
 ## License
 
