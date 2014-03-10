@@ -5,7 +5,7 @@ var log = require('winston');
 var express = require('express');
 var BinaryServer = require('binaryjs').BinaryServer;
 
-async.parallel([function() {
+async.waterfall([function(callback) {
   exec('ps aux | grep [r]aspistill', function(err, stdout, stderr) {
     if (stdout) {
       //log.info(stdout);
@@ -13,16 +13,17 @@ async.parallel([function() {
         var pid = stdout.match(/\s+(\d{4,6})+\s+/gi)[0].trim();
         if (pid) {
           log.info('Raspistill running. PID:' + pid);
-          return true;
+          callback(null, true);
          }
        } catch (e) {
         log.warn('Raspistill PID not found'); 
-        return false;
+        callback(null, false);
       }
+    } else {
+      callback(null, false);
     }
-    return false;
   });
-}], function(isRunning) {
+}, function(isRunning, callback) {
 
   if (isRunning) return;
 
@@ -54,6 +55,11 @@ async.parallel([function() {
   raspistill.stdin.on('data', function(data) {
     log.info('stdin:' + data);
   });
+
+  callback(null, 'done');
+}], function(err, result) {
+  if (err) throw new Error(err);
+  log.info(result);
 });
 
 var app = express();
