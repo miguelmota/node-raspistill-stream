@@ -22,7 +22,7 @@
       client.send('foo');
     });
     client.on('stream', function(stream, meta){    
-      console.log('Received stream');
+      //console.log('Received stream');
       var parts = [];
       stream.on('data', function(data){
         parts.push(data);
