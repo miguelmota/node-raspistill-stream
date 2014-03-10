@@ -20,6 +20,7 @@ async.parallel([function() {
         return false;
       }
     }
+    return false;
   });
 }], function(isRunning) {
 
