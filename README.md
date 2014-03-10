@@ -6,7 +6,7 @@ Experimental use.
 
 ## Dependencies
 
-- Raspberry PI camera module
+- RPi camera module
 - raspistill
 
 ## Install
@@ -17,7 +17,7 @@ git clone https://github.com/miguelmota/node-raspistill-stream
 
 ## Usage
 
-Make sure to update the host url in `index.html` to match your RPI's IP address.
+Make sure to update the host url in `index.html` to match your RPi's IP address.
 
 Run
 
@@ -25,7 +25,7 @@ Run
 node server.js
 ```
 
-then navigate to `http://<your RPI's ip>:9000/` to view the stream of images.
+then navigate to `http://<your RPi's ip>:9000/` to view the stream of images.
 
 ## License
 
