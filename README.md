@@ -25,7 +25,7 @@ Run
 node server.js
 ```
 
-then navigate to `http://<you RPI's ip>:9000/` to view the stream of images.
+then navigate to `http://<your RPI's ip>:9000/` to view the stream of images.
 
 ## License
 
