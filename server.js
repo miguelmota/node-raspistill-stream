@@ -20,6 +20,7 @@ async.waterfall([function(callback) {
         callback(null, false);
       }
     } else {
+      log.warn('Raspistill PID not found'); 
       callback(null, false);
     }
   });
@@ -35,7 +36,7 @@ async.waterfall([function(callback) {
   log.info('Starting raspistill');
 
   var spawn = require('child_process').spawn;
-  var raspistill = spawn('raspistill', ['-w', '640', '-h', '480', '-q', '5', '-o', path + '/pic.jpg', '-tl', '100', '-t', '9999999', '-th', '0:0:0', '-n', '-rot', '180']);
+  var raspistill = spawn('raspistill', ['-w', '640', '-h', '480', '-q', '5', '-o', '/tmp/stream/pic.jpg', '-tl', '1000', '-t', '9999999', '-th', '0:0:0', '-n', '-rot', '180']);
 
   raspistill.on('close', function(code, signal) {
     log.info('child process terminated due to receipt of signal ' + signal);
@@ -46,7 +47,7 @@ async.waterfall([function(callback) {
   });
 
   raspistill.stderr.on('data', function(data) {
-    log.error('stdrr:' + data);
+    log.error('stderr:' + data);
   });
 
   raspistill.stdin.on('data', function(data) {
@@ -75,13 +76,13 @@ var server = BinaryServer({port: 9001});
 
 server.on('connection', function(client){
   log.info('BinaryJS connected');
+  client.on('stream', function() {
+    console.log('sending stream');
+    var file = fs.createReadStream('/tmp/stream/pic.jpg');
+    client.send(file);
+  });
 });
 
-server.on('gimmie', function() {
-  console.log('sending stream');
-  var file = fs.createReadStream('/tmp/stream/pic.jpg');
-  client.send(file);
-});
 
 process.on('exit', function() {
   //raspistill.kill('SIGHUP');
