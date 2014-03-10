@@ -1,0 +1,25 @@
+{
+  "name": "node-raspistill-stream",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:miguelmota/node-raspistill-stream.git"
+  },
+  "keywords": [
+    "raspistill",
+    "stream"
+  ],
+  "author": "Miguel Mota <hello@miguelmota.com> (http://www.miguelmota.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "~3.5.0",
+    "winston": "~0.7.2",
+    "binaryjs": "~0.2.1"
+  }
+}
