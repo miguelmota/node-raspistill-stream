@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 var async = require('async');
 var exec = require('child_process').exec;
 var log = require('winston');
@@ -64,7 +65,7 @@ var port = process.env.PORT || 9000;
 
 app.get('/', function(req, res) {
   log.info('/ route called');
-  res.sendfile(__dirname + '/index.html');
+  res.sendfile(path.resolve(__dirname + '/index.html'));
 });
 
 app.listen(port, function() {
