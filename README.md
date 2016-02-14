@@ -13,6 +13,8 @@ Experimental use.
 
 ```
 git clone https://github.com/miguelmota/node-raspistill-stream
+cd node-raspistill-stream
+npm install
 ```
 
 ## Usage
