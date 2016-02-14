@@ -14,9 +14,9 @@
   <img class="img" src="">
   <script src="/binary.js"></script>
   <script>
+    var host = location.hostname;
     var img = document.querySelector('.img');
-    // change the host to your RPi's ip
-    var client = new BinaryClient('ws://192.168.1.135:9001');
+    var client = new BinaryClient('ws://' + host + ':9001');
     client.on('open', function() {
       console.log('client connected');
       client.send('foo');

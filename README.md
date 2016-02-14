@@ -19,8 +19,6 @@ npm install
 
 ## Usage
 
-Make sure to update the host url in `index.html` to match your RPi's IP address.
-
 Run
 
 ```bash
