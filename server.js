@@ -63,10 +63,7 @@ async.waterfall([function(callback) {
 var app = express();
 var port = process.env.PORT || 9000;
 
-app.get('/', function(req, res) {
-  log.info('/ route called');
-  res.sendfile(path.resolve(__dirname + '/index.html'));
-});
+app.use(express.static(__dirname + '/public'));
 
 app.listen(port, function() {
   log.info('Listening on port ' + port);

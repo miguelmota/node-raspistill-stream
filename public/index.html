@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <title>Raspistill Streaming with BinaryJS</title>
+  <style>
+    .img {
+      width: 640px;
+      height: 480px;
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <img class="img" src="">
+  <script src="/binary.js"></script>
+  <script>
+    var host = location.hostname;
+    var img = document.querySelector('.img');
+    var client = new BinaryClient('ws://' + host + ':9001');
+    client.on('open', function() {
+      console.log('client connected');
+      client.send('foo');
+    });
+    client.on('stream', function(stream, meta){    
+      //console.log('Received stream');
+      var parts = [];
+      stream.on('data', function(data){
+        parts.push(data);
+      });
+      stream.on('end', function(){
+        img.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+        client.send('foo');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -13,11 +13,11 @@ Experimental use.
 
 ```
 git clone https://github.com/miguelmota/node-raspistill-stream
+cd node-raspistill-stream
+npm install
 ```
 
 ## Usage
-
-Make sure to update the host url in `index.html` to match your RPi's IP address.
 
 Run
 
